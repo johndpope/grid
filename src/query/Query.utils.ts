@@ -158,17 +158,19 @@ function applyFilters(query: string, filters: Filter[]) {
 }
 
 function inFilterSql(filter: Filter) {
-  const values = filter.value.split(',').map((x) => filterLiteral(x.trim()));
+  const filterValueTxt = String(filter.value);
+  const values = filterValueTxt.split(',').map((x: any) => filterLiteral(x));
   return `${ident(filter.column)} ${filter.operator} (${values.join(',')})`;
 }
 
 function isFilterSql(filter: Filter) {
-  switch (filter.value) {
+  const filterValueTxt = String(filter.value);
+  switch (filterValueTxt) {
     case 'null':
     case 'false':
     case 'true':
     case 'not null':
-      return `${ident(filter.column)} ${filter.operator} ${filter.value}`;
+      return `${ident(filter.column)} ${filter.operator} ${filterValueTxt}`;
     default:
       return `${ident(filter.column)} ${filter.operator} ${filterLiteral(
         filter.value
@@ -176,18 +178,16 @@ function isFilterSql(filter: Filter) {
   }
 }
 
-/**
- * Filter value can be string | number
- * However the value receive from input is always string.
- * If it's a number, we have to convert it back to number format.
- */
-function filterLiteral(value: string) {
-  const maybeNumber = Number(value);
-  if (isNaN(maybeNumber)) {
-    return literal(value);
-  } else {
-    return literal(maybeNumber);
+function filterLiteral(value: any) {
+  if (typeof value === 'string') {
+    const temp = value.trim();
+    if (temp?.startsWith('ARRAY[') && temp?.endsWith(']')) {
+      return temp;
+    } else {
+      return literal(temp);
+    }
   }
+  return value;
 }
 
 //============================================================

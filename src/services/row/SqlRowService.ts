@@ -1,7 +1,8 @@
 import { IRowService } from '.';
 import { Filter, ServiceError, Sort, SupaRow, SupaTable } from '../../types';
-import Query from '../../query';
 import { ERROR_PRIMARY_KEY_NOTFOUND, SupabaseGridQueue } from '../../constants';
+import Query from '../../query';
+import { isNumericalColumn } from '../../utils';
 
 export class SqlRowService implements IRowService {
   protected query = new Query();
@@ -21,7 +22,8 @@ export class SqlRowService implements IRowService {
     filters
       .filter((x) => x.value && x.value != '')
       .forEach((x) => {
-        queryChains = queryChains.filter(x.column, x.operator, x.value);
+        const value = this.formatFilterValue(x);
+        queryChains = queryChains.filter(x.column, x.operator, value);
       });
 
     const query = queryChains.toSql();
@@ -43,7 +45,7 @@ export class SqlRowService implements IRowService {
   }
 
   delete(rows: SupaRow[]) {
-    const { primaryKeys, error } = this._getPrimaryKeys();
+    const { primaryKeys, error } = this.getPrimaryKeys();
     if (error) return { error };
 
     let queryChains = this.query
@@ -80,7 +82,8 @@ export class SqlRowService implements IRowService {
     filters
       .filter((x) => x.value && x.value != '')
       .forEach((x) => {
-        queryChains = queryChains.filter(x.column, x.operator, x.value);
+        const value = this.formatFilterValue(x);
+        queryChains = queryChains.filter(x.column, x.operator, value);
       });
     sorts.forEach((x) => {
       queryChains = queryChains.order(x.column, x.ascending, x.nullsFirst);
@@ -100,15 +103,17 @@ export class SqlRowService implements IRowService {
   }
 
   update(row: SupaRow) {
-    const { primaryKeys, error } = this._getPrimaryKeys();
+    const { primaryKeys, error } = this.getPrimaryKeys();
     if (error) {
       return { error };
     }
-
     const { idx, ...value } = row;
     const matchValues: any = {};
     primaryKeys!.forEach((key) => {
       matchValues[key] = row[key];
+      // fix: https://github.com/supabase/grid/issues/94
+      // remove primary key from updated value object
+      delete value[key];
     });
     const query = this.query
       .from(this.table.name, this.table.schema ?? undefined)
@@ -125,11 +130,25 @@ export class SqlRowService implements IRowService {
     return {};
   }
 
-  _getPrimaryKeys(): { primaryKeys?: string[]; error?: ServiceError } {
+  getPrimaryKeys(): { primaryKeys?: string[]; error?: ServiceError } {
     const pkColumns = this.table.columns.filter((x) => x.isPrimaryKey);
     if (!pkColumns || pkColumns.length == 0) {
       return { error: { message: ERROR_PRIMARY_KEY_NOTFOUND } };
     }
     return { primaryKeys: pkColumns.map((x) => x.name) };
+  }
+
+  /**
+   * temporary fix until we impliment a better filter UI
+   * which validate input value base on the column type
+   */
+  formatFilterValue(filter: Filter) {
+    const column = this.table.columns.find((x) => x.name == filter.column);
+    if (column && isNumericalColumn(column.format)) {
+      const numberValue = Number(filter.value);
+      if (Number.isNaN(numberValue)) return filter.value;
+      else return Number(filter.value);
+    }
+    return filter.value;
   }
 }
