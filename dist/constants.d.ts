@@ -1,0 +1,10 @@
+import PQueue from 'p-queue';
+export declare const SupabaseGridQueue: PQueue<import("p-queue/dist/priority-queue").default, import("p-queue").DefaultAddOptions>;
+export declare const COLUMN_MIN_WIDTH = 100;
+export declare const STORAGE_KEY_PREFIX = "supabase_grid";
+export declare const REFRESH_PAGE_IMMEDIATELY = -1;
+export declare const TOTAL_ROWS_INITIAL = -1;
+export declare const TOTAL_ROWS_RESET = -2;
+export declare const SELECT_COLUMN_KEY = "supabase-grid-select-row";
+export declare const ADD_COLUMN_KEY = "supabase-grid-add-column";
+export declare const ERROR_PRIMARY_KEY_NOTFOUND = "Please add a primary key column to your table to update or delete rows";

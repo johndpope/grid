@@ -1,0 +1,11 @@
+import { SupaColumn } from '../types';
+export declare function isNumericalColumn(type: string): boolean;
+export declare function isJsonColumn(type: string): boolean;
+export declare function isArrayColumn(type: string): boolean;
+export declare function isTextColumn(type: string): boolean;
+export declare function isDateTimeColumn(type: string): boolean;
+export declare function isDateColumn(type: string): boolean;
+export declare function isTimeColumn(type: string): boolean;
+export declare function isBoolColumn(type: string): boolean;
+export declare function isEnumColumn(type: string): boolean;
+export declare function isForeignKeyColumn(columnDef: SupaColumn): boolean;
