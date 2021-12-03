@@ -1,6 +1,7 @@
 import React from 'react';
-import { Dictionary } from './base';
+import { Dictionary,Filter } from './base';
 import { SupaRow, SupaTable } from './table';
+
 
 export interface GridProps {
   width?: string | number;
@@ -15,7 +16,12 @@ export interface SupabaseGridProps {
   /**
    * database table swagger or table name
    */
+
   table: SupaTable | string;
+    /**
+   * predefine filters 
+   */
+     filters?: Filter[];
   /**
    * run sql query
    */
@@ -85,4 +91,5 @@ export interface SupabaseGridRef {
    * @param idx   edited row index
    */
   rowEdited(row: Dictionary<any>, idx: number): void;
+  addFilter(filterIdx:number,filter:Filter): void;
 }

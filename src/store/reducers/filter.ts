@@ -38,6 +38,7 @@ const FilterReducer = (
 ) => {
   switch (action.type) {
     case 'INIT_TABLE': {
+      console.log("INIT_TABLE");
       return {
         ...state,
         filters: getInitialFilters(
@@ -47,11 +48,13 @@ const FilterReducer = (
       };
     }
     case 'SET_FILTERS':
+      console.log("SET_FILTERS");
       return {
         ...state,
         filters: action.payload,
       };
     case 'ADD_FILTER': {
+      console.log("ADD_FILTER");
       const isValid = isValidFilter(action.payload);
       const newState: any = {
         ...state,
@@ -65,6 +68,7 @@ const FilterReducer = (
       return newState;
     }
     case 'REMOVE_FILTER': {
+      console.log("REMOVE_FILTER");
       const removeIdx = action.payload.index;
       const removeFilter = state.filters[removeIdx];
       const isValid = isValidFilter(removeFilter);

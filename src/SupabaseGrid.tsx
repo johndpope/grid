@@ -14,6 +14,7 @@ import { Grid } from './components/grid';
 import { Shortcuts } from './components/common';
 import Header from './components/header';
 import Footer from './components/footer';
+import { Filter } from '.';
 import {
   cleanupProps,
   initTable,
@@ -63,12 +64,15 @@ export const SupabaseGrid = React.forwardRef<
 
 const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
   (props, ref) => {
-    const { editable, storageRef, gridProps, headerActions } = props;
+    const { editable, storageRef, gridProps, headerActions,filters } = props;
     const dispatch = useDispatch();
     const state = useTrackedState();
     const gridRef = React.useRef<DataGridHandle>(null);
     const [mounted, setMount] = React.useState(false);
 
+    function handler(){
+      console.log("event:");
+    }
     React.useImperativeHandle(ref, () => ({
       rowAdded(row: Dictionary<any>) {
         dispatch({
@@ -82,6 +86,13 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
           payload: { row, idx },
         });
       },
+      addFilter(filterIdx:number,filter:Filter){
+        handler();
+        dispatch({
+          type: 'UPDATE_FILTER',
+          payload: { filterIdx, filter},
+        });
+      }
     }));
 
     React.useEffect(() => {
@@ -100,6 +111,10 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
       state.filters,
       storageRef,
     ]);
+
+    if (filters){
+      state.filters = filters
+    }
 
     React.useEffect(() => {
       if (state.refreshPageFlag == REFRESH_PAGE_IMMEDIATELY) {
@@ -142,6 +157,8 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
         initTable(props, state, dispatch);
       }
     }, [state.metaService, state.table, props.table, props.schema]);
+
+
 
     return (
       <div className="sb-grid">

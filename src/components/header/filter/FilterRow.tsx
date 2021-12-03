@@ -38,6 +38,7 @@ const FilterRow: React.FC<FilterRowProps> = ({ filterIdx, now }) => {
   }
 
   function onOperatorChange(operator: string | number) {
+    console.log("onOperatorChange.....")
     dispatch({
       type: 'UPDATE_FILTER',
       payload: { filterIdx, value: { ...filter, operator } },
@@ -45,6 +46,8 @@ const FilterRow: React.FC<FilterRowProps> = ({ filterIdx, now }) => {
   }
 
   function onFilterChange(event: React.ChangeEvent<HTMLInputElement>) {
+
+    console.log("onFilterChange.....event:,",event);
     const value = event.target.value;
     setFilterValue(value);
     updateFilterValueDebounced(

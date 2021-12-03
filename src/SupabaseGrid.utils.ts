@@ -44,8 +44,13 @@ export function initTable(
     let savedState;
     if (props.storageRef) {
       savedState = onLoadStorage(props.storageRef, table.name, table.schema);
-    }
 
+    }
+    // if (props.filters) {
+    //   initialState.filters = props.filters;
+    // }
+
+    console.log("dispatch INIT_TABLE")
     dispatch({
       type: 'INIT_TABLE',
       payload: {
@@ -53,6 +58,7 @@ export function initTable(
         gridProps: props.gridProps,
         gridColumns,
         savedState,
+        filters:props.filters,
         editable: props.editable,
         onSqlQuery: props.onSqlQuery,
         onError: props.onError ?? defaultErrorHandler,
@@ -195,7 +201,7 @@ export function onLoadStorage(
 
 export const saveStorageDebounced = AwesomeDebouncePromise(saveStorage, 500);
 
-function saveStorage(state: InitialStateType, storageRef: string) {
+export function saveStorage(state: InitialStateType, storageRef: string) {
   if (!state.table) return;
 
   const config = {
