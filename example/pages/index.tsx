@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Supabase Grid Example</title>
+        <title>Supabase Grid Example (with extras)</title>
       </Head>
       <GridWithoutSSR></GridWithoutSSR>
     </>
