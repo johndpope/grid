@@ -15,11 +15,13 @@
     "next": "^12.0.4",
     "pg": "^8.7.1",
     "react": "file:../node_modules/react",
+    "react-datepicker": "^4.5.0",
     "react-dom": "file:../node_modules/react-dom"
   },
   "devDependencies": {
     "@types/pg": "^8.6.1",
     "@types/react": "17.0.20",
+    "@types/react-datepicker": "^4.3.2",
     "encoding": "^0.1.13",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
