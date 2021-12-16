@@ -119,7 +119,7 @@ export default function Grid() {
      var foundExisting = false
      filters.forEach( (myFilter) => {
        if (myFilter["column"] == 'date') {
-         if (myFilter["operator"] == '>'){
+         if (myFilter["operator"] == '<='){
            gridRef.current?.updateFilter(idx,test[0]);
            foundExisting = true;
            return;
