@@ -102,6 +102,13 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
       getTheFilters(){
         console.log("⛳️  getTheFilters");
         return state.filters;
+      },
+      removeFilter(filterIdx: number){
+        console.log("⛳️  REMOVE_FILTER");
+        dispatch({
+          type: 'REMOVE_FILTER',
+          payload: {index:filterIdx}, 
+        });
       }
 
     }));
