@@ -133,6 +133,65 @@ export default function Grid() {
     }
 
   }
+
+  function reloadAll(){
+   
+  }
+
+  function reloadDebits(){
+   
+    var test = filter('amount', '>', '1');
+    if (gridRef.current) {
+      let filters: Filter[] = gridRef.current.getTheFilters();
+      console.log("filters:", filters);
+
+     // test if filters are already present
+     var idx = 0;
+     var foundExisting = false
+     filters.forEach( (myFilter) => {
+       if (myFilter["column"] == 'amount') {
+         if (myFilter["operator"] == '<'){
+           gridRef.current?.removeFilter(idx);
+           gridRef.current?.addFilter(test[0]);
+           foundExisting = true;
+           return;
+         }
+       }
+       idx +=1;
+     });
+     if (!foundExisting){
+       gridRef.current?.addFilter(test[0]);
+     }
+    }
+  }
+  function reloadCredits(){
+ 
+    var test = filter('amount', '<', '1');
+    if (gridRef.current) {
+      let filters: Filter[] = gridRef.current.getTheFilters();
+      console.log("filters:", filters);
+
+     // test if filters are already present
+     var idx = 0;
+     var foundExisting = false
+     filters.forEach( (myFilter) => {
+       if (myFilter["column"] == 'amount') {
+         if (myFilter["operator"] == '>'){
+           gridRef.current?.removeFilter(idx);
+           gridRef.current?.addFilter(test[0]);
+           foundExisting = true;
+           return;
+         }
+       }
+       idx +=1;
+     });
+     if (!foundExisting){
+       gridRef.current?.addFilter(test[0]);
+     }
+    }
+  }
+
+
   React.useEffect(() => {
 
     if (uiMode == 'dark') {
@@ -152,6 +211,18 @@ export default function Grid() {
         <DatePicker selected={endDate}
           onChange={(date: Date) => onEndDateChange(date)}
         />
+          
+          <button onClick={reloadAll} style={{ marginLeft: '100px' }}>
+          All Transactions
+        </button>
+        <button onClick={reloadDebits} style={{ marginLeft: '10px' }}>
+         Debits
+        </button>
+        <button onClick={reloadCredits} style={{ marginLeft: '10px' }}>
+          Credits
+        </button>
+
+
       </div>
       {!reload && (
 
