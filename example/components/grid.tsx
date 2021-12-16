@@ -135,7 +135,28 @@ export default function Grid() {
   }
 
   function reloadAll(){
-   
+    if (gridRef.current) {
+      let filters: Filter[] = gridRef.current.getTheFilters();
+      console.log("filters:", filters);
+
+     // test if filters are already present
+     var idx = 0;
+     var foundExisting = false
+     filters.forEach( (myFilter) => {
+       if (myFilter["column"] == 'amount') {
+         if (myFilter["operator"] == '<'){
+           gridRef.current?.removeFilter(idx);
+           return;
+         }
+         if (myFilter["operator"] == '>'){
+          gridRef.current?.removeFilter(idx);
+          return;
+        }
+       }
+       idx +=1;
+     });
+    
+    }
   }
 
   function reloadDebits(){
