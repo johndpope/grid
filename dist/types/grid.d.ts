@@ -90,5 +90,6 @@ export interface SupabaseGridRef {
     rowEdited(row: Dictionary<any>, idx: number): void;
     updateFilter(filterIdx: number, filter: Filter): void;
     addFilter(theFilter: Filter): void;
+    removeFilter(filterIdx: number): void;
     getTheFilters(): Filter[];
 }

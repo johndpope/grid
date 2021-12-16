@@ -96,7 +96,7 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
         console.log("⛳️  UPDATE_FILTER");
         dispatch({
           type: 'UPDATE_FILTER',
-          payload: { filterIdx:idx, filter:theFilter},
+          payload: { filterIdx:idx, value:theFilter},
         });
       },
       getTheFilters(){

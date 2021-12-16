@@ -30,26 +30,26 @@ export default function Grid() {
     reloadGrid();
   }
 
-  function debugGrid() {
-    console.log("1 gridReg:", gridRef);
-    if (gridRef.current) {
-      let filters: Filter[] = gridRef.current.getTheFilters();
-      console.log("filters:", filters);
+  // function debugGrid() {
+  //   console.log("1 gridReg:", gridRef);
+  //   if (gridRef.current) {
+  //     let filters: Filter[] = gridRef.current.getTheFilters();
+  //     console.log("filters:", filters);
 
 
-      for (var f in filters) {
-        if (filters[0]["column"] == 'account_id') {
-          return
-        }
-      }
-    }
+  //     for (var f in filters) {
+  //       if (filters[0]["column"] == 'account_id') {
+  //         return
+  //       }
+  //     }
+  //   }
 
-    var test = filter('account_id', '=', '254');
-    if (gridRef.current) gridRef.current.addFilter(test[0]);
-    // if (gridRef.current) gridRef.current.rowAdded({});
+  //   var test = filter('account_id', '=', '254');
+  //   if (gridRef.current) gridRef.current.addFilter(test[0]);
+  //   // if (gridRef.current) gridRef.current.rowAdded({});
 
 
-  }
+  // }
   function onRowAdded() {
     if (gridRef.current) gridRef.current.rowAdded({});
   }
@@ -82,13 +82,56 @@ export default function Grid() {
   function onStartDateChange(date: Date) {
     setStartDate(date);
     var test = filter('date', '>', date.toISOString());
-    if (gridRef.current) gridRef.current.addFilter(test[0]);
+    
+    if (gridRef.current) {
+      let filters: Filter[] = gridRef.current.getTheFilters();
+      console.log("filters:", filters);
+
+      // test if filters are already present
+      var idx = 0;
+      var foundExisting = false;
+      filters.forEach( (myFilter) => {
+        if (myFilter["column"] == 'date') {
+          if (myFilter["operator"] == '>'){
+            gridRef.current?.updateFilter(idx,test[0]);
+            foundExisting = true;
+            return;
+          }
+         
+        }
+        idx +=1;
+      });
+      if (!foundExisting){
+        gridRef.current?.addFilter(test[0]);
+      }
+    }
   }
 
   function onEndDateChange(date: Date) {
     setEndDate(date);
     var test = filter('date', '<=', date.toISOString());
-    if (gridRef.current) gridRef.current.addFilter(test[0]);
+    if (gridRef.current) {
+      let filters: Filter[] = gridRef.current.getTheFilters();
+      console.log("filters:", filters);
+
+     // test if filters are already present
+     var idx = 0;
+     var foundExisting = false
+     filters.forEach( (myFilter) => {
+       if (myFilter["column"] == 'date') {
+         if (myFilter["operator"] == '>'){
+           gridRef.current?.updateFilter(idx,test[0]);
+           foundExisting = true;
+           return;
+         }
+       }
+       idx +=1;
+     });
+     if (!foundExisting){
+       gridRef.current?.addFilter(test[0]);
+     }
+    }
+
   }
   React.useEffect(() => {
 
@@ -102,6 +145,7 @@ export default function Grid() {
   return (
     <div className="main-container">
       <div className="tool-bar">
+        From 
         <DatePicker selected={startDate}
           onChange={(date: Date) => onStartDateChange(date)}
         />

@@ -13761,12 +13761,19 @@ const SupabaseGridLayout = React__default.forwardRef((props, ref) => {
             console.log("⛳️  UPDATE_FILTER");
             dispatch({
                 type: 'UPDATE_FILTER',
-                payload: { filterIdx: idx, filter: theFilter },
+                payload: { filterIdx: idx, value: theFilter },
             });
         },
         getTheFilters() {
             console.log("⛳️  getTheFilters");
             return state.filters;
+        },
+        removeFilter(filterIdx) {
+            console.log("⛳️  REMOVE_FILTER");
+            dispatch({
+                type: 'REMOVE_FILTER',
+                payload: { index: filterIdx },
+            });
         }
     }));
     React__default.useEffect(() => {
