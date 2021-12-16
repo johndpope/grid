@@ -13732,14 +13732,11 @@ const SupabaseGrid = React__default.forwardRef((props, ref) => {
             React__default.createElement(SupabaseGridLayout, Object.assign({ ref: ref }, _props)))));
 });
 const SupabaseGridLayout = React__default.forwardRef((props, ref) => {
-    const { editable, storageRef, gridProps, headerActions, filters } = props;
+    const { editable, storageRef, gridProps, headerActions } = props;
     const dispatch = useDispatch();
     const state = useTrackedState();
     const gridRef = React__default.useRef(null);
     const [mounted, setMount] = React__default.useState(false);
-    function handler() {
-        console.log("event:");
-    }
     React__default.useImperativeHandle(ref, () => ({
         rowAdded(row) {
             dispatch({
@@ -13753,12 +13750,23 @@ const SupabaseGridLayout = React__default.forwardRef((props, ref) => {
                 payload: { row, idx },
             });
         },
-        addFilter(filterIdx, filter) {
-            handler();
+        addFilter(theFilter) {
+            console.log("⛳️  ADD_FILTER");
+            dispatch({
+                type: 'ADD_FILTER',
+                payload: theFilter,
+            });
+        },
+        updateFilter(idx, theFilter) {
+            console.log("⛳️  UPDATE_FILTER");
             dispatch({
                 type: 'UPDATE_FILTER',
-                payload: { filterIdx, filter },
+                payload: { filterIdx: idx, filter: theFilter },
             });
+        },
+        getTheFilters() {
+            console.log("⛳️  getTheFilters");
+            return state.filters;
         }
     }));
     React__default.useEffect(() => {
@@ -13777,9 +13785,6 @@ const SupabaseGridLayout = React__default.forwardRef((props, ref) => {
         state.filters,
         storageRef,
     ]);
-    if (filters) {
-        state.filters = filters;
-    }
     React__default.useEffect(() => {
         if (state.refreshPageFlag == REFRESH_PAGE_IMMEDIATELY) {
             fetchPage(state, dispatch);

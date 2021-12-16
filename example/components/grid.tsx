@@ -17,7 +17,7 @@ export default function Grid() {
   );
   const [isReadonly, setReadonly] = React.useState(true);
   const [reload, setReload] = React.useState(false);
-  var filters: Filter[] = [];
+  var testFilters: Filter[] = [];
 
   
 
@@ -29,9 +29,22 @@ export default function Grid() {
 
   function debugGrid() {
     console.log("1 gridReg:",gridRef);
+    if (gridRef.current) {
+      let filters = gridRef.current.getTheFilters();
+      console.log("filters:",filters);
+      console.log("filters[0]:",filters[0]);
+      
+      for (var f in filters){
+        if (f.includes("account_id")){
+          return
+        }
+      }
+    }
 
-    if (gridRef.current) gridRef.current.addFilter(1,filters[0]);
+    var test = filter('account_id', '=', '254');
+    if (gridRef.current) gridRef.current.addFilter(test[0]);
     // if (gridRef.current) gridRef.current.rowAdded({});
+
     
   }
   function onRowAdded() {
@@ -58,13 +71,14 @@ export default function Grid() {
   }
 
   function filter(column: string, operator: FilterOperator, value: string) {
+    var filters: Filter[] = [];
     filters.push({ column, operator, value });
-
+    return filters
   }
 
 
   React.useEffect(() => {
-    filter('account_id', '=', '254');
+    
     if (uiMode == 'dark') {
       document.body.classList.add('dark');
     } else {
@@ -117,7 +131,7 @@ export default function Grid() {
             ref={gridRef}
             table={table.name}
             schema={table.schema}
-            filters={filters}
+            filters={testFilters}
             editable={!isReadonly}
             
             storageRef="dqofwyqljsmbgrubmnzk"

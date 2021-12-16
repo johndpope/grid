@@ -91,5 +91,7 @@ export interface SupabaseGridRef {
    * @param idx   edited row index
    */
   rowEdited(row: Dictionary<any>, idx: number): void;
-  addFilter(filterIdx:number,filter:Filter): void;
+  updateFilter(filterIdx: number, filter: Filter): void;
+  addFilter(theFilter: Filter): void;
+  getTheFilters():Filter[];
 }

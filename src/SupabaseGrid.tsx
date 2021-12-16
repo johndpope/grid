@@ -53,6 +53,7 @@ export const SupabaseGrid = React.forwardRef<
     }
   }, [monaco]);
 
+
   return (
     <StoreProvider>
       <DndProvider backend={HTML5Backend}>
@@ -64,15 +65,13 @@ export const SupabaseGrid = React.forwardRef<
 
 const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
   (props, ref) => {
-    const { editable, storageRef, gridProps, headerActions,filters } = props;
+    const { editable, storageRef, gridProps, headerActions } = props;
     const dispatch = useDispatch();
     const state = useTrackedState();
     const gridRef = React.useRef<DataGridHandle>(null);
     const [mounted, setMount] = React.useState(false);
 
-    function handler(){
-      console.log("event:");
-    }
+
     React.useImperativeHandle(ref, () => ({
       rowAdded(row: Dictionary<any>) {
         dispatch({
@@ -86,14 +85,27 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
           payload: { row, idx },
         });
       },
-      addFilter(filterIdx:number,filter:Filter){
-        handler();
+      addFilter(theFilter:Filter){
+        console.log("⛳️  ADD_FILTER");
+        dispatch({
+          type: 'ADD_FILTER',
+          payload: theFilter,
+        });
+      },
+      updateFilter(idx:number,theFilter:Filter){
+        console.log("⛳️  UPDATE_FILTER");
         dispatch({
           type: 'UPDATE_FILTER',
-          payload: { filterIdx, filter},
+          payload: { filterIdx:idx, filter:theFilter},
         });
+      },
+      getTheFilters(){
+        console.log("⛳️  getTheFilters");
+        return state.filters;
       }
+
     }));
+
 
     React.useEffect(() => {
       if (!mounted) setMount(true);
@@ -101,6 +113,7 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
 
     React.useEffect(() => {
       if (state.isInitialComplete && storageRef && state.table) {
+
         saveStorageDebounced(state, storageRef);
       }
     }, [
@@ -112,9 +125,7 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
       storageRef,
     ]);
 
-    if (filters){
-      state.filters = filters
-    }
+    
 
     React.useEffect(() => {
       if (state.refreshPageFlag == REFRESH_PAGE_IMMEDIATELY) {
