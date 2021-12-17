@@ -65,7 +65,7 @@ export const SupabaseGrid = React.forwardRef<
 
 const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
   (props, ref) => {
-    const { editable, storageRef, gridProps, headerActions } = props;
+    const { editable, storageRef, gridProps, headerActions,filters } = props;
     const dispatch = useDispatch();
     const state = useTrackedState();
     const gridRef = React.useRef<DataGridHandle>(null);
@@ -120,7 +120,10 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
 
     React.useEffect(() => {
       if (state.isInitialComplete && storageRef && state.table) {
-
+        if (filters){
+          state.filters = filters;
+          props.filters = [];
+        }
         saveStorageDebounced(state, storageRef);
       }
     }, [

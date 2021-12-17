@@ -13761,7 +13761,7 @@ const SupabaseGrid = React__default["default"].forwardRef((props, ref) => {
             React__default["default"].createElement(SupabaseGridLayout, Object.assign({ ref: ref }, _props)))));
 });
 const SupabaseGridLayout = React__default["default"].forwardRef((props, ref) => {
-    const { editable, storageRef, gridProps, headerActions } = props;
+    const { editable, storageRef, gridProps, headerActions, filters } = props;
     const dispatch = useDispatch();
     const state = useTrackedState();
     const gridRef = React__default["default"].useRef(null);
@@ -13811,6 +13811,10 @@ const SupabaseGridLayout = React__default["default"].forwardRef((props, ref) => 
     }, []);
     React__default["default"].useEffect(() => {
         if (state.isInitialComplete && storageRef && state.table) {
+            if (filters) {
+                state.filters = filters;
+                props.filters = [];
+            }
             saveStorageDebounced(state, storageRef);
         }
     }, [
