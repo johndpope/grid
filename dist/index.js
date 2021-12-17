@@ -13880,5 +13880,6 @@ const SupabaseGridLayout = React__default["default"].forwardRef((props, ref) => 
 
 exports.Query = Query;
 exports.SupabaseGrid = SupabaseGrid;
+exports.exportRowsToCsv = exportRowsToCsv;
 exports.parseSupaTable = parseSupaTable;
 //# sourceMappingURL=index.js.map

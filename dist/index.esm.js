@@ -13849,5 +13849,5 @@ const SupabaseGridLayout = React__default.forwardRef((props, ref) => {
         mounted && createPortal(React__default.createElement(RowContextMenu, null), document.body)));
 });
 
-export { Query, SupabaseGrid, parseSupaTable };
+export { Query, SupabaseGrid, exportRowsToCsv, parseSupaTable };
 //# sourceMappingURL=index.esm.js.map
