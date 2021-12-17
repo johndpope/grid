@@ -13805,6 +13805,7 @@ const SupabaseGridLayout = React__default.forwardRef((props, ref) => {
                                     // the prop values rule - that is it. dont care about saved value.
                                     console.warn("overriding saved value....x:", x);
                                     state.filters[idx] = x;
+                                    alreadyAdded = true;
                                 }
                             }
                         }
