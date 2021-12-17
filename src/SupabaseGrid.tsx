@@ -126,12 +126,11 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
             state.filters = props.filters;
           }
           props.filters.forEach( (x) => {
+            var idx = 0;
             state.filters.forEach( (y) => {
-        
               var alreadyAdded = false;
-              var idx = 0;
-              if (y["column"] == x.column) {
-                if (y["operator"] == x.operator){
+              if (y["column"] == x.column) { //account_id
+                if (y["operator"] == x.operator){ // =
                   if (y["value"] == x.value){
                     //we have already added to state filters....
                     alreadyAdded = true;
@@ -145,6 +144,7 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
                 }
               }
               if (!alreadyAdded){
+                console.warn("adding....x:",x);
                 state.filters.push(x);
               }
               idx += 1;
