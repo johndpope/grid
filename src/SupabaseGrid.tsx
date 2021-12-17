@@ -124,7 +124,7 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
           console.log("props.filters:",props.filters);
           console.log("predefined filters:",filters);
           state.filters = props.filters;
-          // props.filters = [];
+          saveStorageDebounced(state, storageRef);
         }
 
       }

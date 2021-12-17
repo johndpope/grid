@@ -33,26 +33,6 @@ export default function Grid() {
     reloadGrid();
   }
 
-  // function debugGrid() {
-  //   console.log("1 gridReg:", gridRef);
-  //   if (gridRef.current) {
-  //     let filters: Filter[] = gridRef.current.getTheFilters();
-  //     console.log("filters:", filters);
-
-
-  //     for (var f in filters) {
-  //       if (filters[0]["column"] == 'account_id') {
-  //         return
-  //       }
-  //     }
-  //   }
-
-  //   var test = filter('account_id', '=', '254');
-  //   if (gridRef.current) gridRef.current.addFilter(test[0]);
-  //   // if (gridRef.current) gridRef.current.rowAdded({});
-
-
-  // }
   function onRowAdded() {
     if (gridRef.current) gridRef.current.rowAdded({});
   }
