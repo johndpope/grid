@@ -8,6 +8,10 @@ export function getInitialFilters(
     // verify column still exists
     console.log("⛳️  savedState?.filters!!!",savedState?.filters);
     const filters = savedState.filters.filter((x) => {
+      if (x == null){
+        console.error("WARNING = x is null :",x);
+        return false;
+      }
       const found = table.columns.find((y) => y.name === x.column);
       return found ? true : false;
     });

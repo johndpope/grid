@@ -9250,6 +9250,10 @@ function getInitialFilters(table, savedState) {
         // verify column still exists
         console.log("⛳️  savedState?.filters!!!", savedState === null || savedState === void 0 ? void 0 : savedState.filters);
         const filters = savedState.filters.filter((x) => {
+            if (x == null) {
+                console.error("WARNING = x is null :", x);
+                return false;
+            }
             const found = table.columns.find((y) => y.name === x.column);
             return found ? true : false;
         });
@@ -13777,15 +13781,19 @@ const SupabaseGridLayout = React__default.forwardRef((props, ref) => {
         }
     }));
     React__default.useEffect(() => {
+        if (!state.isInitialComplete) {
+            if (props.filters) {
+                console.log("props.filters:", props.filters);
+                console.log("predefined filters:", filters);
+                state.filters = props.filters;
+                // props.filters = [];
+            }
+        }
         if (!mounted)
             setMount(true);
     }, []);
     React__default.useEffect(() => {
         if (state.isInitialComplete && storageRef && state.table) {
-            if (filters) {
-                state.filters = filters;
-                props.filters = [];
-            }
             saveStorageDebounced(state, storageRef);
         }
     }, [

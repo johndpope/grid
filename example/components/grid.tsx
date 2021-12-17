@@ -2,7 +2,7 @@ import { postAndWait } from './grid.utils';
 import DatePicker from 'react-datepicker';
 import React from 'react';
 import { SupabaseGrid, SupabaseGridRef, SupaRow, Filter, FilterOperator } from '@supabase/grid';
-
+import { useRouter } from 'next/router'
 
 export default function Grid() {
   const [startDate, setStartDate] = React.useState<Date>(new Date()) // Date
@@ -21,7 +21,10 @@ export default function Grid() {
   const [isReadonly, setReadonly] = React.useState(true);
   const [reload, setReload] = React.useState(false);
   var testFilters: Filter[] = [];
-
+  const router = useRouter()
+  var accountId = router.query.accountId;
+  var accountFilter = filter('account_id', '=', `${accountId}`);
+  testFilters.push(accountFilter[0]);
 
 
   function onReadonlyInputChange(e: React.ChangeEvent<HTMLInputElement>) {
