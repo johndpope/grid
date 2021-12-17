@@ -1,6 +1,6 @@
 {
   "name": "@supabase/grid",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A react component to display your Postgres table data. Used in Supabase Dashboard app.",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

@@ -13794,7 +13794,7 @@ const SupabaseGridLayout = React__default["default"].forwardRef((props, ref) => 
             });
         },
         getTheFilters() {
-            console.log("⛳️  getTheFilters");
+            console.log("⛳️  get the damn filters");
             return state.filters;
         },
         removeFilter(filterIdx) {
