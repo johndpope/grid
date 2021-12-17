@@ -22,6 +22,10 @@ const rowsPerPageOptions = [
   { value: 100, label: '100 rows' },
   { value: 500, label: '500 rows' },
   { value: 1000, label: '1000 rows' },
+  { value: 10000, label: '10000 rows' },
+  { value: 100000, label: '100000 rows' },
+
+  
 ];
 
 type PaginationProps = {};
