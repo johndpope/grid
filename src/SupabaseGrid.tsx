@@ -122,6 +122,9 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
 
       if (state.isInitialComplete && storageRef && state.table) {
         if (props.filters){
+          if (state.filters.length == 0){
+            state.filters = props.filters;
+          }
           props.filters.forEach( (x) => {
             state.filters.forEach( (y) => {
         

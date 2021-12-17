@@ -13787,6 +13787,9 @@ const SupabaseGridLayout = React__default.forwardRef((props, ref) => {
     React__default.useEffect(() => {
         if (state.isInitialComplete && storageRef && state.table) {
             if (props.filters) {
+                if (state.filters.length == 0) {
+                    state.filters = props.filters;
+                }
                 props.filters.forEach((x) => {
                     state.filters.forEach((y) => {
                         var alreadyAdded = false;
