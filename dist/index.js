@@ -13819,32 +13819,26 @@ const SupabaseGridLayout = React__default["default"].forwardRef((props, ref) => 
                 if (state.filters.length == 0) {
                     state.filters = props.filters;
                 }
+                var clonedFilterState = new Set(state.filters);
+                console.log("before:", clonedFilterState);
+                // 1st pass - inspect saved state for existing filters losely matching new one.
                 props.filters.forEach((x) => {
-                    var idx = 0;
                     state.filters.forEach((y) => {
-                        var alreadyAdded = false;
                         if (y["column"] == x.column) { //account_id
                             if (y["operator"] == x.operator) { // =
-                                if (y["value"] == x.value) {
-                                    //we have already added to state filters....
-                                    alreadyAdded = true;
-                                    console.log("already added");
-                                }
-                                else {
-                                    // the prop values rule - that is it. dont care about saved value.
-                                    console.warn("overriding saved value....x:", x);
-                                    state.filters[idx] = x;
-                                    alreadyAdded = true;
-                                }
+                                console.warn("deleting:", y);
+                                clonedFilterState.delete(y);
                             }
                         }
-                        if (!alreadyAdded) {
-                            console.warn("adding....x:", x);
-                            state.filters.push(x);
-                        }
-                        idx += 1;
                     });
                 });
+                // add them back in (newly) or add them back in
+                props.filters.forEach((x) => {
+                    console.warn("adding:", x);
+                    clonedFilterState.add(x);
+                });
+                state.filters = Array.from(clonedFilterState);
+                console.log("after:", state.filters);
             }
             saveStorageDebounced(state, storageRef);
         }
