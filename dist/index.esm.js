@@ -13790,6 +13790,7 @@ const SupabaseGridLayout = React__default.forwardRef((props, ref) => {
                 props.filters.forEach((x) => {
                     state.filters.forEach((y) => {
                         var alreadyAdded = false;
+                        var idx = 0;
                         if (y["column"] == x.column) {
                             if (y["operator"] == x.operator) {
                                 if (y["value"] == x.value) {
@@ -13797,11 +13798,17 @@ const SupabaseGridLayout = React__default.forwardRef((props, ref) => {
                                     alreadyAdded = true;
                                     console.log("already added");
                                 }
+                                else {
+                                    // the prop values rule - that is it. dont care about saved value.
+                                    console.warn("overriding saved value....x:", x);
+                                    state.filters[idx] = x;
+                                }
                             }
                         }
                         if (!alreadyAdded) {
                             state.filters.push(x);
                         }
+                        idx += 1;
                     });
                 });
             }
