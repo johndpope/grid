@@ -65,7 +65,7 @@ export const SupabaseGrid = React.forwardRef<
 
 const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
   (props, ref) => {
-    const { editable, storageRef, gridProps, headerActions,filters } = props;
+    const { editable, storageRef, gridProps, headerActions } = props;
     const dispatch = useDispatch();
     const state = useTrackedState();
     const gridRef = React.useRef<DataGridHandle>(null);
@@ -119,17 +119,30 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
     }, []);
 
     React.useEffect(() => {
-      if (!state.isInitialComplete && storageRef && state.table) {
-        if (props.filters){
-          console.log("props.filters:",props.filters);
-          console.log("predefined filters:",filters);
-          state.filters = props.filters;
-          saveStorageDebounced(state, storageRef);
-        }
 
-      }
       if (state.isInitialComplete && storageRef && state.table) {
+        if (props.filters){
+          props.filters.forEach( (x) => {
+            state.filters.forEach( (y) => {
         
+              var alreadyAdded = false;
+              if (y["column"] == x.column) {
+                if (y["operator"] == x.operator){
+                  if (y["value"] == x.value){
+                    //we have already added to state filters....
+                    alreadyAdded = true;
+                    console.log("already added");
+                  }
+                }
+              }
+              if (!alreadyAdded){
+                state.filters.push(x);
+              }
+            });
+          });
+        }
+          
+
         saveStorageDebounced(state, storageRef);
       }
     }, [
