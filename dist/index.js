@@ -13810,7 +13810,11 @@ const SupabaseGridLayout = React__default["default"].forwardRef((props, ref) => 
         }
     }));
     React__default["default"].useEffect(() => {
-        if (!state.isInitialComplete) {
+        if (!mounted)
+            setMount(true);
+    }, []);
+    React__default["default"].useEffect(() => {
+        if (!state.isInitialComplete && storageRef && state.table) {
             if (props.filters) {
                 console.log("props.filters:", props.filters);
                 console.log("predefined filters:", filters);
@@ -13818,10 +13822,6 @@ const SupabaseGridLayout = React__default["default"].forwardRef((props, ref) => 
                 // props.filters = [];
             }
         }
-        if (!mounted)
-            setMount(true);
-    }, []);
-    React__default["default"].useEffect(() => {
         if (state.isInitialComplete && storageRef && state.table) {
             saveStorageDebounced(state, storageRef);
         }

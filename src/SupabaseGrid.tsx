@@ -115,20 +115,21 @@ const SupabaseGridLayout = React.forwardRef<SupabaseGridRef, SupabaseGridProps>(
 
 
     React.useEffect(() => {
-      if (!state.isInitialComplete){
+      if (!mounted) setMount(true);
+    }, []);
+
+    React.useEffect(() => {
+      if (!state.isInitialComplete && storageRef && state.table) {
         if (props.filters){
           console.log("props.filters:",props.filters);
           console.log("predefined filters:",filters);
           state.filters = props.filters;
           // props.filters = [];
         }
+
       }
-      if (!mounted) setMount(true);
-    }, []);
-
-    React.useEffect(() => {
-
       if (state.isInitialComplete && storageRef && state.table) {
+        
         saveStorageDebounced(state, storageRef);
       }
     }, [

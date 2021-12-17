@@ -22,7 +22,7 @@ export default function Grid() {
   const [reload, setReload] = React.useState(false);
   var testFilters: Filter[] = [];
   const router = useRouter()
-  var accountId = router.query.accountId;
+  var accountId = router.query.account_id;
   var accountFilter = filter('account_id', '=', `${accountId}`);
   testFilters.push(accountFilter[0]);
 
