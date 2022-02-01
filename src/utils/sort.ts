@@ -16,5 +16,5 @@ export function getInitialSorts(
   // default sorts
   if (!table?.columns || table?.columns?.length <= 0) return [];
   const firstColumn = table?.columns[0];
-  return [{ column: firstColumn.name, ascending: true }];
+  return [{ column: firstColumn.name, ascending: false }];
 }

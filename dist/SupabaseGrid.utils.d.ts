@@ -15,4 +15,5 @@ export declare function parseSupaTable(data: {
 }): SupaTable;
 export declare function onLoadStorage(storageRef: string, tableName: string, schema?: string | null): any;
 export declare const saveStorageDebounced: typeof saveStorage;
+export declare function clearStorage(storageRef: string): void;
 export declare function saveStorage(state: InitialStateType, storageRef: string): void;

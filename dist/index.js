@@ -9558,7 +9558,7 @@ function getInitialSorts(table, savedState) {
     if (!(table === null || table === void 0 ? void 0 : table.columns) || ((_a = table === null || table === void 0 ? void 0 : table.columns) === null || _a === void 0 ? void 0 : _a.length) <= 0)
         return [];
     const firstColumn = table === null || table === void 0 ? void 0 : table.columns[0];
-    return [{ column: firstColumn.name, ascending: true }];
+    return [{ column: firstColumn.name, ascending: false }];
 }
 
 const NUMERICAL_TYPES = [

@@ -201,6 +201,11 @@ export function onLoadStorage(
 
 export const saveStorageDebounced = AwesomeDebouncePromise(saveStorage, 500);
 
+export function clearStorage(storageRef: string){
+ 
+     const storageKey = getStorageKey(STORAGE_KEY_PREFIX, storageRef);
+     localStorage.removeItem(storageKey);
+}
 export function saveStorage(state: InitialStateType, storageRef: string) {
   if (!state.table) return;
 
